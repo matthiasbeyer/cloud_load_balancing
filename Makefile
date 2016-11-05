@@ -184,7 +184,7 @@ clean: nearly_clean
 #
 # Remove everything except the target pdf file
 #
-nearly_clean: clean_gen
+nearly_clean:
 	@for tmp in $(LATEX_TMPFILES_FLAT);do		\
 		$(ECHO) "\t[RM]\t*.$$tmp";				\
 		$(RM) *.$$tmp;							\
@@ -195,12 +195,4 @@ nearly_clean: clean_gen
 	done
 	@$(ECHO) "\t[RM]\t$(MAKELOG)"
 	@$(RM) $(MAKELOG)
-
-#
-# Clean gen
-#
-clean_gen:
-	@$(ECHO) "\t[MAKE]\t$(GEN_DIR) clean"
-	@$(MAKE) $(MAKE_FLAGS) -C $(GEN_DIR) clean
-
 
