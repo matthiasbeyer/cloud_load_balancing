@@ -1,0 +1,24 @@
+``Load balancing'' itself is a board terminus used to describe the act of
+distributing workload over a set of workers to increase the overall throughput.
+In large scale computing environments such as ``the cloud'', load balancing can
+be and is used to normalize workload of tasks and requests that are issued by
+clients over the network.
+Load balancing solutions can be categorized for example by implemented balancing
+algorithm and network layer they operate on.
+
+A \ac{LBA} must be able to distribute load as evenly as possible
+over a set of nodes.
+Additionally a \ac{LBA} itself must hold several properties,
+such as
+\begin{itemize}
+    \item Reproducible results
+    \item Statelessness
+    \item Speed
+    \item Reliability
+\end{itemize}
+Other desireable features are dynamic spawning of worker instances or
+hot-plugging of instances, generation of statistics and possibly even on-line
+upgrading.
+
+The following chapters will explain why these properties are feasible.
+
