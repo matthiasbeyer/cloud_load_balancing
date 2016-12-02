@@ -9,9 +9,39 @@ behaviour.
 \subsection{Input Data}
 \label{sec:algo:input}
 
+As \ac{LBA} should be implemented as \emph{pure} algorithms,
+the input data of a \ac{LBA} is the
+critical part of such an algorithm: If too few data points are
+provided, the \ac{LBA} might return inaccurate values and the load balancing
+does not meet the properties it wants to hold.
+If too much data is provided, this might result in unnecessary overhead in the
+calculation of the result.
+
+The simplest \ac{LBA} has exactly one information it must know to work: How many
+nodes it can distribute the data on.
+Every time a new tasks is put into the \ac{LBA} to be distributed, the \ac{LBA}
+can now schedule the task to another node, resulting in a ``Round-Robin''
+(\ref{sec:algo:comp:roundrobin}) algorithm.
+Such an algorithm might be feasible in an environment where the tasks as well as
+the infrastructure to process the tasks are homogenous.
+That is, when all tasks have the very same system requirements as well as all
+computing nodes have the same specifications in available Memory and CPU.
+Such a scenario is hardly common.
+
+As tasks are not homogenous, more information is required on both system
+requirements of each task as well as system specifications of the computing
+nodes.
+A \ac{LBA} should be fed with the global system state, so it can calculate the
+best fitting node for the task to schedule.
+Hence, a book-keeping mechanism should be implemented along the algorithm
+itself.
+The more information available about a task and the global state of the
+machines, the better the algorithm can decide, although estimating the costs of
+a task might be a challenge.
+
 % Nodes + their system data (CPU, RAM, NETWORK connection)
 % Kind of request (CPU intensive, RAM intensiev, network intensive)
-% Kind of infrastructure: homogenuouse vs. heterogenuouse
+% Kind of infrastructure: homogenouse vs. heterogenouse
 
 \subsection{Properties of \ac{LBA}}
 \label{sec:algo:prop}
@@ -28,4 +58,9 @@ behaviour.
 % * On-line upgrading
 
 \subsection{Comparation of algorithms}
+
+For the following comparation of different \ac{LBA} the author implemented all
+of the mentioned algorithms in the Rust programming language.
+The input data for all algorithms was generated randomly.
+
 \label{sec:algo:comp}
