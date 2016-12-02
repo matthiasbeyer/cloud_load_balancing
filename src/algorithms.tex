@@ -45,6 +45,16 @@ a task might be a challenge.
 
 \subsection{Properties of \ac{LBA}}
 \label{sec:algo:prop}
+
+The properties of a \ac{LBA} are, obviousely, that it must spread the task load
+as evenly as possible over a set of computing nodes without taking a long time
+to compute the destination of a task.
+
+A \ac{LBA} should compute reproducible results.
+That means, putting a set of computing nodes and a set of tasks into a load
+balancing algorithm should result in the same distribution of the tasks if done
+multiple times.
+
 % * Spreading load evenly
 % * Reproducible results
 % * Statelessness
