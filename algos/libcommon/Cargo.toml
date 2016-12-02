@@ -1,0 +1,8 @@
+[package]
+name = "libcommon"
+version = "0.1.0"
+authors = ["Matthias Beyer <mail@beyermatthias.de>"]
+
+[dependencies]
+csv = "0.14"
+rustc-serialize = "0.3"
