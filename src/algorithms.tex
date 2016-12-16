@@ -16,3 +16,26 @@ In todays systems, the size of a task cannot be predicted.
 The capabilities of a worker instance may be known, but perfect book-keeping is
 hard, even more in a distributed system.
 
+A cheap load balancing strategy is randomizing the target.
+\begin{equation}
+    i = rand() \% |W|
+\end{equation}
+Which has several advantages over other approaches:
+\begin{itemize}
+    \item Simplicity
+    \item Few edge cases
+    \item Easy failover
+    \item Works distributed
+\end{itemize} % TODO: cite http://www.codemesh.io/codemesh/tyler-mcmullen ?
+Although, distributing load randomly does not guarantee the best distributing
+over a given set of notes.
+
+Another known load balancing algorithm is \ac{JSQ}.
+With this algorithm, the load balancing mechanism implements some book-keeping
+mechanism how many jobs are in the queues of the worker instances and selects
+the instance with the shortest queue for a new task.
+This algorithm can result in a ``herd effect'', where a subset of machines is
+either underutilized or overloaded with tasks.
+That is likely, if the load balancing instance(s) has old information on the
+utilization of the nodes as described in \cite{inpSLoadInfo}.
+
