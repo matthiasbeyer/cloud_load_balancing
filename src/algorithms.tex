@@ -39,3 +39,20 @@ either underutilized or overloaded with tasks.
 That is likely, if the load balancing instance(s) has old information on the
 utilization of the nodes as described in \cite{inpSLoadInfo}.
 
+A surprising optimization is the combination of the two algorithms described
+above.
+\begin{equation}
+    \begin{aligned}
+        x &= rand() \% |I| \\
+        y &= rand() \% |I| \\
+        i &= \begin{cases}
+            x & \text{if } load(W_x) =< load(W_y)\\
+            y & \text{if } load(W_x) > load(W_y)\\
+        \end{cases}
+    \end{aligned}
+    \label{eq:randjsq}
+\end{equation}
+If we combine these algorithms, so we select two worker instances randomly and
+now apply \ac{JSQ} on this new set of worker instances (see \ref{eq:randjsq}),
+we get better distribution, as stated in \cite{powerOfTwoInRLB}.
+
