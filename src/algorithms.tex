@@ -1,76 +1,18 @@
-In the following chapter, we focus on how load balancing algorithms must work.
-In the first section we describe what input data must be provided for the
-algorithm to work.
-In the next section we describe the properties of such an algorithm.
-Finally, we compare some simple load balancing algorithms to display their
-behaviour.
+The complexity of a \ac{LBA} increases with the complexity of the system it has
+to work with.
+Consider a load balancing algorithm that computes the target worker for a task,
+where the size of the tasks are equal, the workers have the same capabilities
+and the number of overall tasks is known.
+Such an algorithm is not of complexity.
+In fact, it can be implemented by a simple mathematical equation:
+\begin{equation}
+    i = j \% |W|
+\end{equation}
+Where $i$ is the number of the worker instance in set $W$ that will be assigned
+with the task number $j$.
+Though, such an environment is unlikely.
 
-% algorithms chapter
-\subsection{Input Data}
-\label{sec:algo:input}
+In todays systems, the size of a task cannot be predicted.
+The capabilities of a worker instance may be known, but perfect book-keeping is
+hard, even more in a distributed system.
 
-As \ac{LBA} should be implemented as \emph{pure} algorithms,
-the input data of a \ac{LBA} is the
-critical part of such an algorithm: If too few data points are
-provided, the \ac{LBA} might return inaccurate values and the load balancing
-does not meet the properties it wants to hold.
-If too much data is provided, this might result in unnecessary overhead in the
-calculation of the result.
-
-The simplest \ac{LBA} has exactly one information it must know to work: How many
-nodes it can distribute the data on.
-Every time a new tasks is put into the \ac{LBA} to be distributed, the \ac{LBA}
-can now schedule the task to another node, resulting in a ``Round-Robin''
-(\ref{sec:algo:comp:roundrobin}) algorithm.
-Such an algorithm might be feasible in an environment where the tasks as well as
-the infrastructure to process the tasks are homogenous.
-That is, when all tasks have the very same system requirements as well as all
-computing nodes have the same specifications in available Memory and CPU.
-Such a scenario is hardly common.
-
-As tasks are not homogenous, more information is required on both system
-requirements of each task as well as system specifications of the computing
-nodes.
-A \ac{LBA} should be fed with the global system state, so it can calculate the
-best fitting node for the task to schedule.
-Hence, a book-keeping mechanism should be implemented along the algorithm
-itself.
-The more information available about a task and the global state of the
-machines, the better the algorithm can decide, although estimating the costs of
-a task might be a challenge.
-
-% Nodes + their system data (CPU, RAM, NETWORK connection)
-% Kind of request (CPU intensive, RAM intensiev, network intensive)
-% Kind of infrastructure: homogenouse vs. heterogenouse
-
-\subsection{Properties of \ac{LBA}}
-\label{sec:algo:prop}
-
-The properties of a \ac{LBA} are, obviousely, that it must spread the task load
-as evenly as possible over a set of computing nodes without taking a long time
-to compute the destination of a task.
-
-A \ac{LBA} should compute reproducible results.
-That means, putting a set of computing nodes and a set of tasks into a load
-balancing algorithm should result in the same distribution of the tasks if done
-multiple times.
-
-% * Spreading load evenly
-% * Reproducible results
-% * Statelessness
-% * Speed
-% * Reliability
-%
-% All related:
-% * statistics
-% * dynamic/automatic spawning of instances
-% * hot-plugging instances
-% * On-line upgrading
-
-\subsection{Comparation of algorithms}
-
-For the following comparation of different \ac{LBA} the author implemented all
-of the mentioned algorithms in the Rust programming language.
-The input data for all algorithms was generated randomly.
-
-\label{sec:algo:comp}
