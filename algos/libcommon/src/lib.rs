@@ -54,6 +54,10 @@ impl Assignment {
             acc
         })
     }
+
+    pub fn len(&self) -> usize {
+        self.tasks.len()
+    }
 }
 
 impl Encodable for Assignment {
