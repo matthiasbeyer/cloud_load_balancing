@@ -52,6 +52,7 @@ impl Encodable for Assignment {
 
     fn encode<S: Encoder>(&self, s: &mut S) -> Result<(), S::Error> {
         try!(s.emit_str(&self.node.0));
+        try!(s.emit_usize(self.tasks.len()));
         try!(s.emit_u64(self.calc()));
         Ok(())
     }

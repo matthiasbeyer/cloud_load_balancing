@@ -109,19 +109,19 @@ A perfect distribution would result in each worker handling $20\%$ of the tasks.
 			bar width=5pt,
 			]
 			\addplot+[color=red] % Random
-			coordinates {(1,20.24) (2,20.04) (3,20.37) (4,20.09) (5,19.26)};
+			coordinates {(1,2017) (2,2018) (3,2012) (4,1994) (5,1959)};
 
 			\addplot+[color=blue] % Roundrobin
-			coordinates {(1,19.84) (2,20.24) (3,19.86) (4,20.18) (5,19.88)};
+			coordinates {(1,2000) (2,2000) (3,2000) (4,2000) (5,2000)};
 
 			\addplot+[color=green] % JSQ
-			coordinates {(1,19.85) (2,20.30) (3,19.86) (4,20.11) (5,19.87)};
+			coordinates {(1,2000) (2,2000) (3,2000) (4,2000) (5,2000)};
 
 			\addplot+[color=cyan] % select-random-JSQ
-			coordinates {(1,19.94) (2,19.78) (3,20.33) (4,19.82) (5,20.14)};
+			coordinates {(1,2000) (2,2001) (3,2000) (4,1999) (5,2000)};
 
 			\addplot[black,line legend,sharp plot,update limits=false]
-				coordinates {(0,20) (6,20)};
+				coordinates {(0,2000) (6,2000)};
 		\end{axis}
 	\end{tikzpicture}
 	\label{fig:algo:use}
@@ -144,10 +144,7 @@ A perfect distribution would result in each worker handling $20\%$ of the tasks.
 			]
 
 			\addplot+[color=black] coordinates
-			{(random,0.388)
-				(roundrobin,0.173)
-				(JSQ,0.179)
-				(RS-JSQ,0.206)};
+			{(random,22.24) (roundrobin,0) (JSQ,0) (RS-JSQ,0.632)};
 
 		\end{axis}
 	\end{tikzpicture}
