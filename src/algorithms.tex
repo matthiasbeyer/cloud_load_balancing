@@ -67,11 +67,16 @@ Though this is very unlikely, we can do better.
 			ylabel={load (percent)},
 			symbolic x coords={1,2,3,4,5},
 			xtick=data,
-			nodes near coords,
 			nodes near coords align={vertical},
 			]
-			\addplot coordinates {(1,100) (2,100) (3,100) (4,100) (5,100)};
-			\addplot coordinates {(1,14 ) (2,10 ) (3,240) (4,12 ) (5,224)};
+			\addplot+[color=blue]
+				coordinates {(1,100) (2,100) (3,100) (4,100) (5,100)};
+
+			\addplot+[color=red]
+				coordinates {(1,14 ) (2,10 ) (3,240) (4,12 ) (5,224)};
+
+			\addplot+[color=green]
+				coordinates {(1,103) (2,107) (3,97 ) (4,100) (5,92 )};
 		\end{axis}
 	\end{tikzpicture}
 	\label{fig:algo:random}
@@ -88,6 +93,9 @@ This algorithm can result in a ``herd effect'', where a subset of machines is
 either underutilized or overloaded with tasks.
 That is likely, if the load balancing instance(s) has old information on the
 utilization of the nodes as described in \cite{inpSLoadInfo}.
+
+An example result for \ac{JSQ} is visualized in \ref{fig:algo:random} (green)
+using 500 tasks with random requirements.
 
 A surprising optimization is the combination of the two algorithms described
 above.
