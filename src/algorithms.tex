@@ -51,40 +51,10 @@ with a huge number of tasks while other workers only handle a very small number
 of tasks, resulting in a high load on some machines while others idle.
 
 The desireable state is that each machine has the same workload, resulting in a
-perfect distribution of load over all machines (blue in \ref{fig:algo:random}).
+perfect distribution of load over all machines.
 With an algorithm randomly assigning work to workers, the possibility exists
-that the system ends up in an unbalanced state as shown in \ref{fig:algo:random}
-(red).
+that the system ends up in an unbalanced state.
 Though this is very unlikely, we can do better.
-
-% TODO: Fix numbering
-\begin{figure}
-	\centering
-	\begin{tikzpicture}
-		\begin{axis}[
-			ybar,
-			enlargelimits=0.15,
-			ylabel={load (percent)},
-			symbolic x coords={1,2,3,4,5},
-			xtick=data,
-			nodes near coords align={vertical},
-			]
-			\addplot+[color=blue]
-				coordinates {(1,100) (2,100) (3,100) (4,100) (5,100)};
-
-			\addplot+[color=red]
-				coordinates {(1,47 ) (2,74 ) (3,170) (4,54 ) (5,155)};
-
-			\addplot+[color=green]
-				coordinates {(1,103) (2,107) (3,97 ) (4,100) (5,92 )};
-
-			\addplot+[color=cyan]
-				coordinates {(1,101) (2,95 ) (3,109) (4,96 ) (5,98 )};
-		\end{axis}
-	\end{tikzpicture}
-	\label{fig:algo:random}
-	\caption{Example: Resulting load from random task distribution}
-\end{figure}
 
 \subsection{\ac{JSQ}}
 
@@ -92,16 +62,13 @@ Another known load balancing algorithm is \ac{JSQ}.
 With this algorithm, the load balancing mechanism implements some book-keeping
 mechanism how many jobs are in the queues of the worker instances and selects
 the instance with the shortest queue for a new task.
-This algorithm can result in a ``herd effect'', where a subset of machines is
-either underutilized or overloaded with tasks.
+This algorithm can result in a ``herd effect'' in distributed environments,
+where a subset of machines is either underutilized or overloaded with tasks.
 That is likely, if the load balancing instance(s) has old information on the
 utilization of the nodes as described in \cite{inpSLoadInfo}.
 
-An example result for \ac{JSQ} is visualized in \ref{fig:algo:random} (green)
-using 500 tasks with random requirements.
-
-A surprising optimization is the combination of the two algorithms described
-above.
+A surprisingly good optimization is the combination of the two algorithms
+described above.
 \begin{equation}
     \begin{aligned}
         x &= rand() \% |I| \\
@@ -116,6 +83,45 @@ above.
 If we combine these algorithms, so we select two worker instances randomly and
 now apply \ac{JSQ} on this new set of worker instances (see \ref{eq:randjsq}),
 we get better distribution, as stated in \cite{powerOfTwoInRLB}.
-This is visualied in \ref{fig:algo:random} (cyan).
+
+\subsection{Example load balancing output}
+
+The load balancing algorithms ``Random'', ``Roundrobin'', ``\ac{JSQ}'' and
+``select-random-\ac{JSQ}'' were implemented in the Rust programming language to
+visualize their behaviour.
+Figure \ref{fig:algo:random} visualizes the results of the load balancing
+algorithms applied to a set of data.
+The input values were five worker machines and $10,000$ tasks.
+The figure shows how much work each worker must handle.
+A perfect distribution would result in each worker handling $20\%$ of the tasks.
+
+% TODO: Fix numbering
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			ybar,
+			enlargelimits=0.15,
+			ylabel={load (percent)},
+			symbolic x coords={1,2,3,4,5},
+			xtick=data,
+			nodes near coords align={vertical},
+			]
+			\addplot+[color=red] % Random
+			coordinates {(1,20.24) (2,20.04) (3,20.37) (4,20.09) (5,19.26)};
+
+			\addplot+[color=blue] % Roundrobin
+			coordinates {(1,19.84) (2,20.24) (3,19.86) (4,20.18) (5,19.88)};
+
+			\addplot+[color=green] % JSQ
+			coordinates {(1,19.85) (2,20.30) (3,19.86) (4,20.11) (5,19.87)};
+
+			\addplot+[color=cyan] % select-random-JSQ
+			coordinates {(1,19.94) (2,19.78) (3,20.33) (4,19.82) (5,20.14)};
+		\end{axis}
+	\end{tikzpicture}
+	\label{fig:algo:random}
+	\caption{Example: Resulting load from random task distribution}
+\end{figure}
 
 % vim: set ts=4 sw=4 tw=0 noet :
