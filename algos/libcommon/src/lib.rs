@@ -4,29 +4,20 @@ extern crate rustc_serialize;
 use csv::{Reader, Writer};
 use rustc_serialize::{Encoder, Encodable};
 
-pub struct Node {
-    pub name: String,
-    pub mem:  u64,
-    pub cpu:  u8,
-    pub net:  u32,
-}
+pub struct Node(String);
 
 impl Node {
-    pub fn new(name: String, cpu: u8, mem: u64, net: u32) -> Node {
-        Node { name: name, mem: mem, cpu: cpu, net: net }
-    }
+    pub fn new(name: String) -> Node { Node(name) }
 }
 
 pub struct Task {
-    pub name:    String,
-    pub req_mem: u64,
-    pub req_cpu: u8,
-    pub req_net: u32,
+    pub name:   String,
+    pub req:    u64,
 }
 
 impl Task {
-    pub fn new(name: String, req_cpu: u8, req_mem: u64, req_net: u32) -> Task {
-        Task { name: name, req_mem: req_mem, req_cpu: req_cpu, req_net: req_net }
+    pub fn new(name: String, req: u64) -> Task {
+        Task { name: name, req: req }
     }
 }
 
@@ -45,12 +36,9 @@ impl Assignment {
         self.tasks.push(task);
     }
 
-    pub fn calc(&self) -> (u64, u64, u64) {
-        self.tasks.iter().fold((0, 0, 0), |mut acc, elem| {
-            acc.0 += elem.req_mem;
-            acc.1 += elem.req_cpu as u64;
-            acc.2 += elem.req_net as u64;
-
+    pub fn calc(&self) -> u64 {
+        self.tasks.iter().fold(0, |mut acc, elem| {
+            acc += elem.req;
             acc
         })
     }
@@ -63,11 +51,8 @@ impl Assignment {
 impl Encodable for Assignment {
 
     fn encode<S: Encoder>(&self, s: &mut S) -> Result<(), S::Error> {
-        let (mem, cpu, net) = self.calc();
-        try!(s.emit_str(&self.node.name));
-        try!(s.emit_u64(mem));
-        try!(s.emit_u64(cpu));
-        try!(s.emit_u64(net));
+        try!(s.emit_str(&self.node.0));
+        try!(s.emit_u64(self.calc()));
         Ok(())
     }
 
@@ -80,14 +65,14 @@ pub fn load(args: Vec<String>) -> (Vec<Node>, Vec<Task>) {
 
     let mut nrdr  = csv::Reader::from_file(args[1].clone()).unwrap().has_headers(false);
     let nodes = nrdr.decode().map(|row| {
-        let (a, b, c, d) = row.unwrap();
-        Node::new(a, b, c, d)
+        let name : String = row.unwrap();
+        Node::new(name)
     });
 
     let mut trdr  = csv::Reader::from_file(args[2].clone()).unwrap().has_headers(false);
     let tasks = trdr.decode().map(|row| {
-        let (a, b, c, d) = row.unwrap();
-        Task::new(a, b, c, d)
+        let (a, b) = row.unwrap();
+        Task::new(a, b)
     });
 
     (nodes.collect(), tasks.collect())
