@@ -128,6 +128,33 @@ A perfect distribution would result in each worker handling $20\%$ of the tasks.
 	\caption{Task distribution}
 \end{figure}
 
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			ybar,
+			enlargelimits=0.35,
+			ylabel={Task distribution, default deviation},
+			symbolic x coords={random,roundrobin,JSQ,RS-JSQ},
+			xtick=data,
+			nodes near coords,
+			nodes near coords align={vertical},
+			x tick label style={rotate=45,anchor=east},
+			bar width=15pt,
+			]
+
+			\addplot+[color=black] coordinates
+			{(random,0.388)
+				(roundrobin,0.173)
+				(JSQ,0.179)
+				(RS-JSQ,0.206)};
+
+		\end{axis}
+	\end{tikzpicture}
+	\label{fig:algo:use:defdev}
+	\caption{Load distribution, default deviation}
+\end{figure}
+
 The figure in \ref{fig:algo:use} does not visualize, though what the
 \emph{load} values on each of these instances are, as this value is hardly
 predictable.
@@ -192,7 +219,7 @@ a high load requirement.
 
 		\end{axis}
 	\end{tikzpicture}
-	\label{fig:algo:defdev}
+	\label{fig:algo:load:defdev}
 	\caption{Load distribution, default deviation}
 \end{figure}
 
