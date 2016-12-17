@@ -46,6 +46,37 @@ Which has several advantages over other approaches:
 \end{itemize} % TODO: cite http://www.codemesh.io/codemesh/tyler-mcmullen ?
 Although, distributing load randomly does not guarantee the best distributing
 over a given set of notes.
+It is even possible that a small set of workers are assigned
+with a huge number of tasks while other workers only handle a very small number
+of tasks, resulting in a high load on some machines while others idle.
+
+The desireable state is that each machine has the same workload, resulting in a
+perfect distribution of load over all machines (blue in \ref{fig:algo:random}).
+With an algorithm randomly assigning work to workers, the possibility exists
+that the system ends up in an unbalanced state as shown in \ref{fig:algo:random}
+(red).
+Though this is very unlikely, we can do better.
+
+% TODO: Fix numbering
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			ybar,
+			enlargelimits=0.15,
+			ylabel={load (percent)},
+			symbolic x coords={1,2,3,4,5},
+			xtick=data,
+			nodes near coords,
+			nodes near coords align={vertical},
+			]
+			\addplot coordinates {(1,100) (2,100) (3,100) (4,100) (5,100)};
+			\addplot coordinates {(1,14 ) (2,10 ) (3,240) (4,12 ) (5,224)};
+		\end{axis}
+	\end{tikzpicture}
+	\label{fig:algo:random}
+	\caption{Example: Resulting load from random task distribution}
+\end{figure}
 
 \subsection{\ac{JSQ}}
 
@@ -75,3 +106,4 @@ If we combine these algorithms, so we select two worker instances randomly and
 now apply \ac{JSQ} on this new set of worker instances (see \ref{eq:randjsq}),
 we get better distribution, as stated in \cite{powerOfTwoInRLB}.
 
+% vim: set ts=4 sw=4 tw=0 noet :
