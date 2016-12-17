@@ -16,6 +16,8 @@ In todays systems, the size of a task cannot be predicted.
 The capabilities of a worker instance may be known, but perfect book-keeping is
 hard, even more in a distributed system.
 
+\subsection{Random load balancing}
+
 A cheap load balancing strategy is randomizing the target.
 \begin{equation}
     i = rand() \% |W|
@@ -29,6 +31,8 @@ Which has several advantages over other approaches:
 \end{itemize} % TODO: cite http://www.codemesh.io/codemesh/tyler-mcmullen ?
 Although, distributing load randomly does not guarantee the best distributing
 over a given set of notes.
+
+\subsection{\ac{JSQ}}
 
 Another known load balancing algorithm is \ac{JSQ}.
 With this algorithm, the load balancing mechanism implements some book-keeping
