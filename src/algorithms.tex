@@ -148,17 +148,18 @@ a high load requirement.
 			nodes near coords align={vertical},
 			bar width=5pt,
 			]
-			\addplot+[color=red] % Random
-			coordinates {(1,4360) (2,4460) (3,4363) (4,4418) (5,4365)};
 
-			\addplot+[color=blue] % Roundrobin
+			\addplot+[color=red] % Random
 			coordinates {(1,4445) (2,4402) (3,4474) (4,4414) (5,4231)};
 
-			\addplot+[color=green] % JSQ
-			coordinates {(1,4379) (2,4344) (3,4466) (4,4354) (5,4423)};
-
-			\addplot+[color=cyan] % select-random-JSQ
+			\addplot+[color=blue] % Roundrobin
 			coordinates {(1,4358) (2,4446) (3,4363) (4,4432) (5,4367)};
+
+			\addplot+[color=green] % JSQ
+			coordinates {(1,4360) (2,4460) (3,4363) (4,4418) (5,4365)};
+
+			\addplot+[color=cyan] % RS-JSQ
+			coordinates {(1,4379) (2,4344) (3,4466) (4,4354) (5,4423)};
 
 			\addplot[red,line legend,sharp plot,update limits=false]
 				coordinates {(0,4393) (6,4393)};
