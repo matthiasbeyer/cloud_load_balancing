@@ -1,0 +1,11 @@
+[package]
+name = "random"
+version = "0.1.0"
+authors = ["Matthias Beyer <mail@beyermatthias.de>"]
+
+[dependencies]
+csv = "0.14"
+random = "0.12.2"
+
+[dependencies.libcommon]
+path = "../libcommon/"
