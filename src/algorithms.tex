@@ -169,4 +169,31 @@ a high load requirement.
 	\caption{Load distribution}
 \end{figure}
 
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			ybar,
+			enlargelimits=0.35,
+			ylabel={Default deviation},
+			symbolic x coords={random,roundrobin,JSQ,RS-JSQ},
+			xtick=data,
+			nodes near coords,
+			nodes near coords align={vertical},
+			x tick label style={rotate=45,anchor=east},
+			bar width=15pt,
+			]
+
+			\addplot+[color=black] coordinates
+				{(random,84.889)
+				(roundrobin,37.765)
+				(JSQ,39.716)
+				(RS-JSQ,45.497)};
+
+		\end{axis}
+	\end{tikzpicture}
+	\label{fig:algo:defdev}
+	\caption{Load distribution, default deviation}
+\end{figure}
+
 % vim: set ts=4 sw=4 tw=0 noet :
