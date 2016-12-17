@@ -77,6 +77,9 @@ Though this is very unlikely, we can do better.
 
 			\addplot+[color=green]
 				coordinates {(1,103) (2,107) (3,97 ) (4,100) (5,92 )};
+
+			\addplot+[color=cyan]
+				coordinates {(1,101) (2,95 ) (3,109) (4,96 ) (5,98 )};
 		\end{axis}
 	\end{tikzpicture}
 	\label{fig:algo:random}
@@ -113,5 +116,6 @@ above.
 If we combine these algorithms, so we select two worker instances randomly and
 now apply \ac{JSQ} on this new set of worker instances (see \ref{eq:randjsq}),
 we get better distribution, as stated in \cite{powerOfTwoInRLB}.
+This is visualied in \ref{fig:algo:random} (cyan).
 
 % vim: set ts=4 sw=4 tw=0 noet :
