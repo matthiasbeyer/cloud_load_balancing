@@ -89,7 +89,7 @@ we get better distribution, as stated in \cite{powerOfTwoInRLB}.
 The load balancing algorithms ``Random'', ``Roundrobin'', ``\ac{JSQ}'' and
 ``select-random-\ac{JSQ}'' were implemented in the Rust programming language to
 visualize their behaviour.
-Figure \ref{fig:algo:random} visualizes the results of the load balancing
+Figure \ref{fig:algo:use} visualizes the results of the load balancing
 algorithms applied to a set of data.
 The input values were five worker machines and $10,000$ tasks.
 The figure shows how much work each worker must handle.
@@ -120,8 +120,44 @@ A perfect distribution would result in each worker handling $20\%$ of the tasks.
 			coordinates {(1,19.94) (2,19.78) (3,20.33) (4,19.82) (5,20.14)};
 		\end{axis}
 	\end{tikzpicture}
-	\label{fig:algo:random}
-	\caption{Example: Resulting load from random task distribution}
+	\label{fig:algo:use}
+	\caption{Task distribution}
+\end{figure}
+
+The figure in \ref{fig:algo:use} does not visualize, though what the
+\emph{load} values on each of these instances are, as this value is hardly
+predictable.
+The figure in \ref{fig:algo:load} visualized the load distribution which results
+from the above distribution of tasks.
+The load for each task was a random number ranging from $1$ to $4$, where $4$ is
+a high load requirement.
+
+\begin{figure}
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			ybar,
+			enlargelimits=0.15,
+			ylabel={load (percent)},
+			symbolic x coords={1,2,3,4,5},
+			xtick=data,
+			nodes near coords align={vertical},
+			]
+			\addplot+[color=red] % Random
+			coordinates {(1,4360) (2,4460) (3,4363) (4,4418) (5,4365)};
+
+			\addplot+[color=blue] % Roundrobin
+			coordinates {(1,4445) (2,4402) (3,4474) (4,4414) (5,4231)};
+
+			\addplot+[color=green] % JSQ
+			coordinates {(1,4379) (2,4344) (3,4466) (4,4354) (5,4423)};
+
+			\addplot+[color=cyan] % select-random-JSQ
+			coordinates {(1,4358) (2,4446) (3,4363) (4,4432) (5,4367)};
+		\end{axis}
+	\end{tikzpicture}
+	\label{fig:algo:load}
+	\caption{Load distribution}
 \end{figure}
 
 % vim: set ts=4 sw=4 tw=0 noet :
