@@ -152,13 +152,17 @@ A perfect distribution would result in each worker handling $20\%$ of the tasks.
 	\caption{Load distribution, default deviation}
 \end{figure}
 
-The figure in \ref{fig:algo:use} does not visualize, though what the
-\emph{load} values on each of these instances are, as this value is hardly
-predictable.
-The figure in \ref{fig:algo:load} visualized the load distribution which results
-from the above distribution of tasks.
-The load for each task was a random number ranging from $1$ to $4$, where $4$ is
-a high load requirement.
+As a non-distributed algorithm was applied to the input data, figure
+\ref{fig:algo:use} shows a round-robin like distribution of tasks for \ac{JSQ}.
+Surprising is that ``RS-JSQ'' shows almost the same distribution, though its
+random component.
+
+Figure \ref{fig:algo:load} shows the distribution of the load in the system.
+The algorithms did not know about the load, which was assigned randomly to the
+tasks.
+Anyways, it is clearly visible that ``random'' distribution of tasks does result
+in a worse distribution than ``roundrobin'' or \ac{JSQ}, given the default
+deviation as shown in \ref{fig:algo:load:defdev}.
 
 \begin{figure}
 	\centering
