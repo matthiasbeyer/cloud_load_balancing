@@ -224,4 +224,40 @@ deviation as shown in \ref{fig:algo:load:defdev}.
 	\caption{Load distribution, default deviation}
 \end{figure}
 
+\subsection{Hash based load balancing}
+
+Another way of distributing load is using a hash algorithm to determine the
+target server.
+With this approach, each request gets hashed with a hash function.
+The result of the hash function can be seen as number.
+Taking this number modulo the number of servers yields the index of the target
+server.
+In his scenario, the number of servers has to be constant.
+If a new server is added to the cluster, the modulo operation yields other
+servers for the same requests as before, yielding cache effects useless
+\cite{medVimeoEngin}.
+Another implication of hash based load balancing is that consistent hashing is
+less than ideal for load balancing, as requests are not requests are not not
+distributed evenly over content.
+Consider a cluster for videos, where each server has a subset of the complete
+data.
+Naturally, cat videos are more likely to be requested by the user than other
+videos, resulting in a higher load on the servers holding these particular
+videos.
+
+\cite{medVimeoEngin} states that as RS-JSQ as proposed in \cite{powerOfTwoInRLB}
+and \cite{powerOfTwoRandomChoices} was not suiteable for their problem, but
+\ac{CHBL} as proposed by
+\cite{ConsistentHashingWithBoundedLoads} was.
+The guarantees of \ac{CHBL} are a upper bound of the load of each server
+\cite{ConsistentHashingWithBoundedLoads},
+distribution of requests is the same as with consistent hashing and some more
+cache-friendly properties \cite{medVimeoEngin}.
+
+The \ac{CHBL} algorithm was implemented and submitted to the HAProxy HTTP load
+balancer open source project and on November 25, HAProxy 1.7.0 was published
+with \ac{CHBL} available.
+Real world measurements reveal a great benefit from applying \ac{CHBL}, as shown
+in \cite{medVimeoEngin}.
+
 % vim: set ts=4 sw=4 tw=0 noet :
