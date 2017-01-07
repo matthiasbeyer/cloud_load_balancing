@@ -104,14 +104,16 @@ data.
 Naturally, cat videos are more likely to be requested by the user than other
 videos, resulting in higher load on the servers holding this particular data.
 
-\cite{medVimeoEngin} states that as RS-JSQ as proposed in \cite{powerOfTwoInRLB}
-and \cite{powerOfTwoRandomChoices} was not suiteable for their problem, but
-\ac{CHBL} as proposed by
-\cite{ConsistentHashingWithBoundedLoads} was.
-The guarantees of \ac{CHBL} are a upper bound of the load of each server
-\cite{ConsistentHashingWithBoundedLoads},
-distribution of requests is the same as with consistent hashing and some more
-cache-friendly properties \cite{medVimeoEngin}.
+In \cite{medVimeoEngin} is stated, that as RS-JSQ was not suiteable for their
+problem.
+Though, \ac{CHBL} as proposed by \cite{ConsistentHashingWithBoundedLoads} was.
+
+\ac{CHBL} provides some guarantees which are fortunate for dynamic hash based
+load balancing in distributed environments.
+That is, mostly, an upper bound for the load of each server
+\cite{ConsistentHashingWithBoundedLoads}
+and some more cache-friendly properties \cite{medVimeoEngin}.
+with \ac{CHBL}, distribution of requests is the same as with consistent hashing.
 
 The \ac{CHBL} algorithm was implemented and submitted to the HAProxy HTTP load
 balancer open source project and on November 25, HAProxy 1.7.0 was published
