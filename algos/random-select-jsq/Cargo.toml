@@ -6,6 +6,7 @@ authors = ["Matthias Beyer <mail@beyermatthias.de>"]
 [dependencies]
 csv = "0.14"
 random = "0.12.2"
+two-lock-queue = "0.1"
 
 [dependencies.libcommon]
 path = "../libcommon/"
