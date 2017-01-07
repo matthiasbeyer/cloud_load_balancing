@@ -67,6 +67,19 @@ With an algorithm randomly assigning work to workers, the possibility exists
 that the system ends up in an unbalanced state.
 Though this is very unlikely, we can do better.
 
+\subsection{Roundrobin}
+
+Another cheap load balancing strategy might be ``Roundrobin''.
+\begin{equation}
+    i = number\_of(T) \% |W|
+\end{equation}
+Though, as with randomized load balancing, this yields problems in distributed
+environments, where not one but many load balancers are applied to a network of
+servers.
+
+Also, as uniform tasks only occur in a perfect world, Roundrobin load balancing
+might result in overloaded servers as well.
+
 \subsection{\ac{JSQ}}
 
 A known load balancing algorithm is \ac{JSQ}.
