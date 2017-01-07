@@ -69,17 +69,38 @@ Though this is very unlikely, we can do better.
 
 \subsection{\ac{JSQ}}
 
-Another known load balancing algorithm is \ac{JSQ}.
+A known load balancing algorithm is \ac{JSQ}.
+
 With this algorithm, the load balancing mechanism implements some book-keeping
 mechanism how many jobs are in the queues of the worker instances and selects
 the instance with the shortest queue for a new task.
-This algorithm can result in a ``herd effect'' in distributed environments,
-where a subset of machines is either underutilized or overloaded with tasks.
-That is likely, if the load balancing instance(s) has old information on the
-utilization of the nodes as described in \cite{inpSLoadInfo}.
 
-A surprisingly good optimization is the combination of the two algorithms
-described above.
+If this algorithm is applied in a non-distributed environment, it behaves
+exactly like roundrobin \ref{chap:algo:rr}.
+Applying it with several load-balancers, though, might yield some better
+results, though synchronization must be implemented carefully.
+As synchronization is rather expensive, one might implement a scheduled
+synchronization which causes the instances to synchronize state information in a
+periodic manner.
+However, this can result in a ``herd effect'' in distributed environments,
+where a subset of machines is either underutilized or overloaded with tasks.
+This is caused by the old information of how the nodes are
+utilized as described in.
+Mechanisms exists to use this old information to estimate the current situation
+and improve the decisions of the load balancing (\cite{inpSLoadInfo}).
+
+As synchronization might be to complex and faulty to implement, querying the
+servers for their queue length might be an alternative.
+With a querying-mechanism, synchronization, and therefor blocking, would be
+omitted.
+
+However, querying a server instance for its queue length introduces complexity
+to the servers and might also be a non-trivial task.
+
+\subsection{\ac{RSJSQ}}
+
+A surprisingly good optimization is the combination of the random load balancing
+implementation with \ac{JSQ}.
 \begin{equation}
     \begin{aligned}
         x &= rand() \% |I| \\
@@ -91,9 +112,17 @@ described above.
     \end{aligned}
     \label{eq:randjsq}
 \end{equation}
-If we combine these algorithms, so we select two worker instances randomly and
-now apply \ac{JSQ} on this new set of worker instances (see \ref{eq:randjsq}),
-we get better distribution, as stated in \cite{powerOfTwoInRLB}.
+Due to the fact that querying each server for its queue length
+might be a non-trivial and expensive task,
+selecting two servers randomly (or by a hash function applied to the task, as
+stated in \cite{powerOfTwoRandomChoices}) and applying the \ac{JSQ} algorithm on
+this subset of servers yields, obviousely, better performance as the number of
+queries for the queue length is minimized.
+
+As stated in \cite{powerOfTwoRandomChoices}, \ac{RSJSQ} might result in
+$\Theta(log(log(n)))$ tasks on each server, rather than
+$\Theta(log(n) / log(log(n)))$, where $n$ is the number of servers in the
+environment.
 
 \subsection{Hash based load balancing}
 
@@ -115,8 +144,8 @@ data.
 Naturally, cat videos are more likely to be requested by the user than other
 videos, resulting in higher load on the servers holding this particular data.
 
-In \cite{medVimeoEngin} is stated, that as RS-JSQ was not suiteable for their
-problem.
+In \cite{medVimeoEngin} is stated, that as \ac{RSJSQ} was not suiteable for
+their problem.
 Though, \ac{CHBL} as proposed by \cite{ConsistentHashingWithBoundedLoads} was.
 
 \ac{CHBL} provides some guarantees which are fortunate for dynamic hash based
