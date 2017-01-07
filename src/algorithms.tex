@@ -44,8 +44,19 @@ Which has several advantages over other approaches:
     \item Easy failover
     \item Works distributed
 \end{itemize} % TODO: cite http://www.codemesh.io/codemesh/tyler-mcmullen ?
-Although, distributing load randomly does not guarantee the best distributing
-over a given set of notes.
+These properties are rather easy to replicate with non-random load balancing
+algorithms, except the last one.
+
+In a common load balancing environment, having only one load balancer
+distributing tasks between worker instances is naive.
+Commonly, at least one fail-over is deployed, sometimes several.
+Also, in a large system, load balancers might be spread not only over server
+racks but rather continents.
+Making load balancers work with each other and synchronize state information
+introduces high complexity.
+
+Anyways, distributing load randomly does not guarantee the best distributing
+over a given set of notes, neither with one load balancer nor with many.
 It is even possible that a small set of workers are assigned
 with a huge number of tasks while other workers only handle a very small number
 of tasks, resulting in a high load on some machines while others idle.
