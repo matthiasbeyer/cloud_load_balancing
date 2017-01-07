@@ -4,12 +4,15 @@ extern crate rustc_serialize;
 use csv::{Reader, Writer};
 use rustc_serialize::{Encoder, Encodable};
 
+#[derive(Clone, Debug)]
 pub struct Node(String);
 
 impl Node {
     pub fn new(name: String) -> Node { Node(name) }
+    pub fn name(&self) -> &String { &self.0 }
 }
 
+#[derive(Clone, Debug)]
 pub struct Task {
     pub name:   String,
     pub req:    u64,
@@ -21,6 +24,7 @@ impl Task {
     }
 }
 
+#[derive(Clone, Debug)]
 pub struct Assignment {
     pub node: Node,
     pub tasks: Vec<Task>,
