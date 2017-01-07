@@ -101,6 +101,9 @@ This is caused by the old information of how the nodes are
 utilized as described in.
 Mechanisms exists to use this old information to estimate the current situation
 and improve the decisions of the load balancing (\cite{inpSLoadInfo}).
+The LI framework as introduced in \cite{inpSLoadInfo} improves load distribution
+if the information about the utilization of the nodes is old and therefor
+prevents the ``herd effect'' mentioned earlier.
 
 As synchronization might be to complex and faulty to implement, querying the
 servers for their queue length might be an alternative.
