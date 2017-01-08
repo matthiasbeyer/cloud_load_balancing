@@ -12,15 +12,22 @@ Where $i$ is the number of the worker instance in set $W$ that will be assigned
 with the task number $j$.
 Though, such an environment is unlikely.
 
-In todays systems, the size of a task cannot be predicted.
+In todays systems, the size of a task can often not be predicted.
+Algorithms like ``min-min'' and ``max-min''
+\cite{anInDepthAnal} are not applicable to most systems, because
+with these algorithms, the complete set of tasks must be known before scheduling
+them.
+In most environments, this is not possible.
+
 The capabilities of a worker instance may be known, but as tasks come in and are
 assigned to workers, an algorithm has to implement some book-keeping to know
 which worker has the least load at a given point in time.
-This is not complex, though having only one load balancer in a large ecosystem
-is highly unlikely, as it would be a single point of failure.
+This is of moderate complexity, though having only one load balancer in a large
+ecosystem is highly unlikely, as it would be a single point of failure.
 Instead, multiple load balancers are used.
 Because of this, some synchronization method between the book-keeping of each
-load balancer must be introduced to ensure the best distribution of tasks.
+load balancer must be introduced to ensure the integrity of the load data on
+each load balancer node.
 
 If worker instance $W_1$ has the least load at time $t_1$, the load balancer
 $L_1$ might assign a number of tasks to it in $t_2$.
@@ -30,6 +37,8 @@ In the meantime, load balancer $L_2$ might need to assign another set of tasks,
 which it assignes to $W_1$ in $t_2$, because it does not know yet that $W_1$
 isn't the least loaded worker anymore.
 This causes $W_1$ to become overloaded in $t_3$.
+
+% TODO: Graphic on timing example from above
 
 \subsection{Random load balancing}
 
@@ -178,5 +187,9 @@ balancer open source project and on November 25, HAProxy 1.7.0 was published
 with \ac{CHBL} available.
 Real world measurements reveal a great benefit from applying \ac{CHBL}, as shown
 in \cite{medVimeoEngin}.
+
+% TODO: Work stealing
+% TODO: Drafting Algorithm
+% TODO: Delayed Binding
 
 % vim: set ts=4 sw=4 tw=0 noet :
