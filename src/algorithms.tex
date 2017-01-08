@@ -109,9 +109,11 @@ As synchronization might be to complex and faulty to implement, querying the
 servers for their queue length might be an alternative.
 With a querying-mechanism, synchronization, and therefor blocking, would be
 omitted.
-
 However, querying a server instance for its queue length introduces complexity
 to the servers and might also be a non-trivial task.
+
+Either way, \ac{JSQ} is a valuable option for load balancing in environments
+where the request is short-living, like in \ac{DNS}-environments or web servers.
 
 \subsection{\ac{RSJSQ}}
 
