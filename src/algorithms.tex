@@ -82,7 +82,8 @@ Another cheap load balancing strategy might be ``Roundrobin''.
 \begin{equation}
     i = number\_of(T) \% |W|
 \end{equation}
-Though, as with randomized load balancing, this yields problems in distributed
+As roundrobin is a static algorithm \cite{availabilityLBinCC},
+it yields, as with randomized load balancing, problems in distributed
 environments, where not one but many load balancers are applied to a network of
 servers.
 
