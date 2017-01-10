@@ -76,18 +76,18 @@ With an algorithm randomly assigning work to workers, the possibility exists
 that the system ends up in an unbalanced state.
 Though this is very unlikely, we can do better.
 
-\subsection{Roundrobin}
+\subsection{\ac{RR}}
 
-Another cheap load balancing strategy might be ``Roundrobin''.
+Another cheap load balancing strategy might be \ac{RR}.
 \begin{equation}
     i = number\_of(T) \% |W|
 \end{equation}
-As roundrobin is a static algorithm \cite{availabilityLBinCC},
+As \ac{RR} is a static algorithm \cite{availabilityLBinCC},
 it yields, as with randomized load balancing, problems in distributed
 environments, where not one but many load balancers are applied to a network of
 servers.
 
-Also, as uniform tasks only occur in a perfect world, Roundrobin load balancing
+Also, as uniform tasks only occur in a perfect world, \ac{RR} load balancing
 might result in overloaded servers as well.
 
 \subsection{\ac{JSQ}}
@@ -99,7 +99,7 @@ mechanism how many jobs are in the queues of the worker instances and selects
 the instance with the shortest queue for a new task.
 
 If this algorithm is applied in a non-distributed environment, it behaves
-exactly like roundrobin \ref{chap:algo:rr}.
+exactly like \ac{RR} \ref{chap:algo:rr}.
 Applying it with several load-balancers, though, might yield some better
 results, though synchronization must be implemented carefully.
 As synchronization is rather expensive, one might implement a scheduled
@@ -204,7 +204,7 @@ task takes to be computed.
                         \addplot[black,line legend,sharp plot,update limits=false]
                                 coordinates {(0,2000) (6,2000)};
 
-						\legend{Random,Roundrobin,JSQ,RSJSQ}
+                        \legend{Random,RR,JSQ,RSJSQ}
                 \end{axis}
         \end{tikzpicture}
         \label{fig:algo:use}
@@ -217,7 +217,7 @@ task takes to be computed.
                 \begin{axis}[
                         ybar,
                         enlargelimits=0.35,
-                        symbolic x coords={random,roundrobin,JSQ,RSJSQ},
+                        symbolic x coords={random,RR,JSQ,RSJSQ},
                         xtick=data,
                         ylabel={Tasks distribution, default deviation},
                         nodes near coords,
@@ -227,7 +227,7 @@ task takes to be computed.
                         ]
 
                         \addplot+[color=black] coordinates
-                        {(random,22.24) (roundrobin,0) (JSQ,0) (RSJSQ,0.632)};
+                        {(random,78.22) (RR,0) (JSQ,0) (RSJSQ,1.26)};
 
                 \end{axis}
         \end{tikzpicture}
@@ -236,11 +236,12 @@ task takes to be computed.
 \end{figure}
 
 In an environment with one load balancer where tasks can be distributed before
-the processing, \ac{JSQ} and \ac{RSJSQ} behave exactly like ``roundrobin''.
+the processing, \ac{JSQ} and \ac{RSJSQ} behave exactly like \ac{RR} as shown
+in \ref{fig:algo:use} and \ref{fix:algo:use:defdev}.
 This is not a surprise for \ac{JSQ} (with manual book keeping), as the node with
 the least tasks after assigning a task to node $n$ is always the next node:
 $(n + 1) \% |N|$.
-Surprisingly, \ac{RSJSQ} behaves \emph{almost} like ``roundrobin'' and \ac{JSQ},
+Surprisingly, \ac{RSJSQ} behaves \emph{almost} like \ac{RR} and \ac{JSQ},
 despite the random selection of workers.
 
 \subsection{Hash based load balancing}
