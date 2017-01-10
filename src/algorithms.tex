@@ -152,6 +152,76 @@ $\Theta(log(log(n)))$ tasks on each server, rather than
 $\Theta(log(n) / log(log(n)))$, where $n$ is the number of servers in the
 environment.
 
+\subsection{Comparing RR, \ac{JSQ} and \ac{RSJSQ}}
+
+\pgfplotsset{every axis legend/.append style={at={(0,0)},anchor=north east}}
+\begin{figure}
+        \centering
+        \begin{tikzpicture}
+                \begin{axis}[
+                        ybar,
+                        enlargelimits=0.15,
+                        symbolic x coords={0,1,2,3,4,5,6},
+                        xtick=data,
+						xlabel={Worker},
+                        ylabel={Tasks},
+                        nodes near coords align={vertical},
+                        bar width=5pt,
+                        ]
+                        \addplot+[color=red] % Random
+                        coordinates {(1,2017) (2,2018) (3,2012) (4,1994) (5,1959)};
+
+                        \addplot+[color=blue] % Roundrobin
+                        coordinates {(1,2000) (2,2000) (3,2000) (4,2000) (5,2000)};
+
+                        \addplot+[color=green] % JSQ
+                        coordinates {(1,2000) (2,2000) (3,2000) (4,2000) (5,2000)};
+
+                        \addplot+[color=cyan] % select-random-JSQ
+                        coordinates {(1,2000) (2,2001) (3,2000) (4,1999) (5,2000)};
+
+                        \addplot[black,line legend,sharp plot,update limits=false]
+                                coordinates {(0,2000) (6,2000)};
+
+						\legend{Random,Roundrobin,JSQ,RSJSQ}
+                \end{axis}
+        \end{tikzpicture}
+        \label{fig:algo:use}
+        \caption{Task distribution}
+\end{figure}
+
+\begin{figure}
+        \centering
+        \begin{tikzpicture}
+                \begin{axis}[
+                        ybar,
+                        enlargelimits=0.35,
+                        symbolic x coords={random,roundrobin,JSQ,RSJSQ},
+                        xtick=data,
+                        ylabel={Tasks distribution, default deviation},
+                        nodes near coords,
+                        nodes near coords align={vertical},
+                        x tick label style={rotate=45,anchor=east},
+                        bar width=15pt,
+                        ]
+
+                        \addplot+[color=black] coordinates
+                        {(random,22.24) (roundrobin,0) (JSQ,0) (RSJSQ,0.632)};
+
+                \end{axis}
+        \end{tikzpicture}
+        \label{fig:algo:use:defdev}
+        \caption{Load distribution, default deviation}
+\end{figure}
+
+In an environment with one load balancer where tasks can be distributed before
+the processing, \ac{JSQ} and \ac{RSJSQ} behave exactly like ``roundrobin''.
+This is not a surprise for \ac{JSQ} (with manual book keeping), as the node with
+the least tasks after assigning a task to node $n$ is always the next node:
+$(n + 1) \% |N|$.
+Surprisingly, \ac{RSJSQ} behaves \emph{almost} like ``roundrobin'' and \ac{JSQ},
+despite the random selection of workers.
+
 \subsection{Hash based load balancing}
 
 Another way of distributing load is using a hash algorithm to determine the
