@@ -159,7 +159,14 @@ they were implemented in the Rust programming languages.
 Sample data in form of a CSV file was generated with the code from
 Fig. \ref{lst:ruby}
 
-\begin{figure}
+The sample data holds two values in each column: A task name and a time factor.
+The former is for simple debugging purposes, the latter is an artificial random
+time factor.
+It is a number between $1$ and $100$ and specifies how many \emph{ticks} the
+task takes to be computed.
+The algorithms put one task into the workers on each tick.
+
+\begin{figure}[b!]
     \begin{lstlisting}
     (0...50_000).each do |n|
       r = Random::rand(100) + 1
@@ -169,13 +176,6 @@ Fig. \ref{lst:ruby}
     \caption{Ruby script to generate random task data}
     \label{lst:ruby}
 \end{figure}
-
-The sample data holds two values in each column: A task name and a time factor.
-The former is for simple debugging purposes, the latter is an artificial random
-time factor.
-It is a number between $1$ and $100$ and specifies how many \emph{ticks} the
-task takes to be computed.
-The algorithms put one task into the workers on each tick.
 
 \pgfplotsset{every axis legend/.append style={at={(0,0)},anchor=north east}}
 \begin{figure}
@@ -210,7 +210,7 @@ The algorithms put one task into the workers on each tick.
         \label{fig:algo:use}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[b!]
         \centering
         \begin{tikzpicture}
                 \begin{axis}[
@@ -282,7 +282,7 @@ Fig. \ref{fig:algo:time:defdev}).
         \label{fig:algo:time}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[b!]
         \centering
         \begin{tikzpicture}
                 \begin{axis}[
