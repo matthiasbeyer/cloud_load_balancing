@@ -156,7 +156,8 @@ environment.
 
 For the following comparison of the algorthms \ac{RR}, \ac{JSQ} and \ac{RSJSQ},
 they were implemented in the Rust programming languages.
-Sample data in form of a CSV file was generated with \ref{lst:ruby}
+Sample data in form of a CSV file was generated with the code from
+Fig. \ref{lst:ruby}
 
 \begin{figure}
     \begin{lstlisting}
@@ -165,8 +166,8 @@ Sample data in form of a CSV file was generated with \ref{lst:ruby}
       puts "Task #{n},#{r}"
     end
     \end{lstlisting}
-    \label{lst:ruby}
     \caption{Ruby script to generate random task data}
+    \label{lst:ruby}
 \end{figure}
 
 The sample data holds two values in each column: A task name and a time factor.
@@ -235,7 +236,7 @@ The algorithms put one task into the workers on each tick.
 
 In an environment with one load balancer where tasks can be distributed before
 the processing, \ac{JSQ} and \ac{RSJSQ} behave exactly like \ac{RR} as shown
-in \ref{fig:algo:use} and \ref{fix:algo:use:defdev}.
+in Fig. \ref{fig:algo:use} and Fig. \ref{fig:algo:use:defdev}.
 This is not a surprise for \ac{JSQ} (with manual book keeping), as the node with
 the least tasks after assigning a task to node $n$ is always the next node:
 $(n + 1) \% |N|$.
@@ -249,7 +250,8 @@ the time factor gets decremented by $1$.
 If a task hits time factor $0$, it gets removed from the tasks queue in the
 worker and the next task will be computed on the next tick.
 After $50.000$ tasks are pushed into the workers, the current state is printed
-out by the implementation (\ref{fig:algo:time} and \ref{fig:algo:time:defdev}).
+out by the implementation (Fig. \ref{fig:algo:time} and
+Fig. \ref{fig:algo:time:defdev}).
 
 \begin{figure}
         \centering
