@@ -43,6 +43,18 @@ impl Assignment {
         })
     }
 
+    pub fn tick(&mut self) {
+        if self.tasks.len() > 0 {
+            let mut t = self.tasks.remove(0);
+
+            t.req -= 1;
+
+            if t.req != 0 {
+                self.tasks.insert(0, t);
+            }
+        }
+    }
+
     pub fn len(&self) -> usize {
         self.tasks.len()
     }
