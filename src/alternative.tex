@@ -1,0 +1,41 @@
+The following chapter describes some lesser-known load balancing algorithm and
+their general approach.
+
+\subsection{Honey bee inspired load balancing}
+
+In \cite{honeybee}, Dhinesh Babu L.D. and P. Venkata Krishna propose a honey bee
+behaviour inspired load balancing algorithm.
+This algorithm takes priority of tasks into account and works well for
+heterogeneous cloud environments.
+It also reduces the waiting time of tasks in the queues on the worker instances.
+
+The Honey bee inspired load balancing algorithm is, as the name tells, based on
+the foraging behaviour of honey bees and the \ac{ABC} as proposed by
+N. Karaboga \cite{honeybee}.
+
+Dhinesh Babu L.D. and P. Venkata Krishna illustrate that their algorithm
+improves average execution time and reduce waiting time of queued tasks.
+
+\subsection{Resource Reservation for Web Services Load Balancing}
+
+A. Nakai, E. Madeira and L. E. Buzato outline a server-based load balancing
+policy for worldwide distributed web servers in \cite{nakai}.
+
+Compared to known solutions (\ac{RR}, \ac{RR-AA}, \ac{SL} and \ac{LU} as
+implemented in the ``HAProxy'' open source load balancing solution), their
+algorithm presented better performance due to the fact that their algorithm
+prevented overloading rather than rebalancing work if overloading occurs.
+
+\subsection{More}
+
+\cite{cloudLBTech} lists more load balancing techniques, featuring but not
+limited to
+\begin{itemize}
+    \item \emph{Decentralized content aware load balancing}
+    \item \emph{Load Balancing strategy for virtual storage}
+    \item \emph{Load Balancing mechanism based on ant colony and complex network
+        theory}
+    \item \emph{Two-Phased Scheduling}
+    \item \dots
+\end{itemize}
+
