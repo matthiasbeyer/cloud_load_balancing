@@ -154,6 +154,27 @@ environment.
 
 \subsection{Comparing RR, \ac{JSQ} and \ac{RSJSQ}}
 
+For the following comparison of the algorthms \ac{RR}, \ac{JSQ} and \ac{RSJSQ},
+they were implemented in the Rust programming languages.
+Sample data in form of a CSV file was generated with \ref{lst:ruby}
+
+\begin{figure}
+    \begin{lstlisting}
+    (0...50_000).each do |n|
+      r = Random::rand(100) + 1
+      puts "Task #{n},#{r}"
+    end
+    \end{lstlisting}
+    \label{lst:ruby}
+    \caption{Ruby script to generate random task data}
+\end{figure}
+
+The sample data holds two values in each column: A task name and a time factor.
+The former is for simple debugging purposes, the latter is an artificial random
+time factor.
+It is a number between $1$ and $100$ and specifies how many \emph{ticks} the
+task takes to be computed.
+
 \pgfplotsset{every axis legend/.append style={at={(0,0)},anchor=north east}}
 \begin{figure}
         \centering
@@ -163,22 +184,22 @@ environment.
                         enlargelimits=0.15,
                         symbolic x coords={0,1,2,3,4,5,6},
                         xtick=data,
-						xlabel={Worker},
+                        xlabel={Worker},
                         ylabel={Tasks},
                         nodes near coords align={vertical},
                         bar width=5pt,
                         ]
                         \addplot+[color=red] % Random
-                        coordinates {(1,2017) (2,2018) (3,2012) (4,1994) (5,1959)};
+                        coordinates {(1,9995) (2,10167) (3,9950) (4,10021) (5,9867)};
 
                         \addplot+[color=blue] % Roundrobin
-                        coordinates {(1,2000) (2,2000) (3,2000) (4,2000) (5,2000)};
+                        coordinates {(1,10000) (2,10000) (3,10000) (4,10000) (5,10000)};
 
                         \addplot+[color=green] % JSQ
-                        coordinates {(1,2000) (2,2000) (3,2000) (4,2000) (5,2000)};
+                        coordinates {(1,10000) (2,10000) (3,10000) (4,10000) (5,10000)};
 
                         \addplot+[color=cyan] % select-random-JSQ
-                        coordinates {(1,2000) (2,2001) (3,2000) (4,1999) (5,2000)};
+                        coordinates {(1,9999) (2,9998) (3,10001) (4,10001) (5,10001)};
 
                         \addplot[black,line legend,sharp plot,update limits=false]
                                 coordinates {(0,2000) (6,2000)};
