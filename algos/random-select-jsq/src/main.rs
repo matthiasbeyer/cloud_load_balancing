@@ -14,6 +14,10 @@ fn main() {
     let mut source = random::default().seed([42, 1337]);
 
     for task in tasks.into_iter() {
+        for mut a in ass.iter_mut() {
+            a.tick();
+        }
+
         let i : usize = source.read::<usize>() % nass;
         let j : usize = source.read::<usize>() % nass;
 
