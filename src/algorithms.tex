@@ -76,18 +76,18 @@ With an algorithm randomly assigning work to workers, the possibility exists
 that the system ends up in an unbalanced state.
 Though this is very unlikely, we can do better.
 
-\subsection{Roundrobin}
+\subsection{\ac{RR}}
 
-Another cheap load balancing strategy might be ``Roundrobin''.
+Another cheap load balancing strategy might be \ac{RR}.
 \begin{equation}
     i = number\_of(T) \% |W|
 \end{equation}
-As roundrobin is a static algorithm \cite{availabilityLBinCC},
+As \ac{RR} is a static algorithm \cite{availabilityLBinCC},
 it yields, as with randomized load balancing, problems in distributed
 environments, where not one but many load balancers are applied to a network of
 servers.
 
-Also, as uniform tasks only occur in a perfect world, Roundrobin load balancing
+Also, as uniform tasks only occur in a perfect world, \ac{RR} load balancing
 might result in overloaded servers as well.
 
 \subsection{\ac{JSQ}}
@@ -99,7 +99,7 @@ mechanism how many jobs are in the queues of the worker instances and selects
 the instance with the shortest queue for a new task.
 
 If this algorithm is applied in a non-distributed environment, it behaves
-exactly like roundrobin \ref{chap:algo:rr}.
+exactly like \ac{RR} \ref{chap:algo:rr}.
 Applying it with several load-balancers, though, might yield some better
 results, though synchronization must be implemented carefully.
 As synchronization is rather expensive, one might implement a scheduled
@@ -151,6 +151,158 @@ As stated in \cite{powerOfTwoRandomChoices}, \ac{RSJSQ} might result in
 $\Theta(log(log(n)))$ tasks on each server, rather than
 $\Theta(log(n) / log(log(n)))$, where $n$ is the number of servers in the
 environment.
+
+\subsection{Comparing RR, \ac{JSQ} and \ac{RSJSQ}}
+
+For the following comparison of the algorthms \ac{RR}, \ac{JSQ} and \ac{RSJSQ},
+they were implemented in the Rust programming languages.
+Sample data in form of a CSV file was generated with \ref{lst:ruby}
+
+\begin{figure}
+    \begin{lstlisting}
+    (0...50_000).each do |n|
+      r = Random::rand(100) + 1
+      puts "Task #{n},#{r}"
+    end
+    \end{lstlisting}
+    \label{lst:ruby}
+    \caption{Ruby script to generate random task data}
+\end{figure}
+
+The sample data holds two values in each column: A task name and a time factor.
+The former is for simple debugging purposes, the latter is an artificial random
+time factor.
+It is a number between $1$ and $100$ and specifies how many \emph{ticks} the
+task takes to be computed.
+The algorithms put one task into the workers on each tick.
+
+\pgfplotsset{every axis legend/.append style={at={(0,0)},anchor=north east}}
+\begin{figure}
+        \centering
+        \begin{tikzpicture}
+                \begin{axis}[
+                        ybar,
+                        enlargelimits=0.15,
+                        symbolic x coords={0,1,2,3,4,5,6},
+                        xtick=data,
+                        xlabel={Worker},
+                        ylabel={Tasks},
+                        nodes near coords align={vertical},
+                        bar width=5pt,
+                        ]
+                        \addplot+[color=red] % Random
+                        coordinates {(1,9995) (2,10167) (3,9950) (4,10021) (5,9867)};
+
+                        \addplot+[color=blue] % Roundrobin
+                        coordinates {(1,10000) (2,10000) (3,10000) (4,10000) (5,10000)};
+
+                        \addplot+[color=green] % JSQ
+                        coordinates {(1,10000) (2,10000) (3,10000) (4,10000) (5,10000)};
+
+                        \addplot+[color=cyan] % select-random-JSQ
+                        coordinates {(1,9999) (2,9998) (3,10001) (4,10001) (5,10001)};
+
+                        \legend{Random,RR,JSQ,RSJSQ}
+                \end{axis}
+        \end{tikzpicture}
+        \label{fig:algo:use}
+        \caption{Task distribution}
+\end{figure}
+
+\begin{figure}
+        \centering
+        \begin{tikzpicture}
+                \begin{axis}[
+                        ybar,
+                        enlargelimits=0.35,
+                        symbolic x coords={random,RR,JSQ,RSJSQ},
+                        xtick=data,
+                        ylabel={Tasks distribution, default deviation},
+                        nodes near coords,
+                        nodes near coords align={vertical},
+                        x tick label style={rotate=45,anchor=east},
+                        bar width=15pt,
+                        ]
+
+                        \addplot+[color=black] coordinates
+                        {(random,78.22) (RR,0) (JSQ,0) (RSJSQ,1.26)};
+
+                \end{axis}
+        \end{tikzpicture}
+        \label{fig:algo:use:defdev}
+        \caption{Task distribution, default deviation}
+\end{figure}
+
+In an environment with one load balancer where tasks can be distributed before
+the processing, \ac{JSQ} and \ac{RSJSQ} behave exactly like \ac{RR} as shown
+in \ref{fig:algo:use} and \ref{fix:algo:use:defdev}.
+This is not a surprise for \ac{JSQ} (with manual book keeping), as the node with
+the least tasks after assigning a task to node $n$ is always the next node:
+$(n + 1) \% |N|$.
+Surprisingly, \ac{RSJSQ} behaves \emph{almost} like \ac{RR} and \ac{JSQ},
+despite the random selection of workers.
+
+If we take the processing of the tasks on the workers into account, though, we
+clearly see the improvement of \ac{JSQ} over \ac{RR}.
+Each tick one of the tasks inside a worker gets computed, which means that
+the time factor gets decremented by $1$.
+If a task hits time factor $0$, it gets removed from the tasks queue in the
+worker and the next task will be computed on the next tick.
+After $50.000$ tasks are pushed into the workers, the current state is printed
+out by the implementation (\ref{fig:algo:time} and \ref{fig:algo:time:defdev}).
+
+\begin{figure}
+        \centering
+        \begin{tikzpicture}
+                \begin{axis}[
+                        ybar,
+                        enlargelimits=0.15,
+                        symbolic x coords={0,1,2,3,4,5,6},
+                        xtick=data,
+                        xlabel={Worker},
+                        ylabel={Tasks},
+                        nodes near coords align={vertical},
+                        bar width=5pt,
+                        ]
+                        \addplot+[color=blue] % Roundrobin
+                        coordinates {(1,9018) (2,9019) (3,9014) (4,9002) (5,8968)};
+
+                        \addplot+[color=green] % JSQ
+                        coordinates {(1,9006) (2,9006) (3,9006) (4,9006) (5,9006)};
+
+                        \addplot+[color=cyan] % RSJSQ
+                        coordinates {(1,9005) (2,9004) (3,9006) (4,9007) (5,9005)};
+
+                        \legend{RR,JSQ,RSJSQ}
+                \end{axis}
+        \end{tikzpicture}
+        \label{fig:algo:time}
+        \caption{Task distribution}
+\end{figure}
+
+\begin{figure}
+        \centering
+        \begin{tikzpicture}
+                \begin{axis}[
+                        ybar,
+                        enlargelimits=0.35,
+                        symbolic x coords={random,RR,JSQ,RSJSQ},
+                        xtick=data,
+                        ylabel={Tasks distribution, default deviation},
+                        nodes near coords,
+                        nodes near coords align={vertical},
+                        x tick label style={rotate=45,anchor=east},
+                        bar width=15pt,
+                        ]
+
+                        \addplot+[color=black] coordinates
+                        {(RR,19.08) (JSQ,0) (RSJSQ,1.02)};
+
+                \end{axis}
+        \end{tikzpicture}
+        \label{fig:algo:time:defdev}
+        \caption{Task distribution, default deviation}
+\end{figure}
 
 \subsection{Hash based load balancing}
 
