@@ -160,13 +160,13 @@ Sample data in form of a CSV file was generated with the code from
 Fig. \ref{lst:ruby}
 
 \begin{wrapfigure}{r}{0.18\textwidth}
-    \begin{lstlisting}
+	\begin{minted}{bash}
 Task 0,55
 Task 1,53
 Task 2,43
 Task 3,19
 ...
-    \end{lstlisting}
+	\end{minted}
     \caption{Sample data}
     \label{lst:sampledata}
 \end{wrapfigure}
@@ -180,12 +180,12 @@ task takes to be computed.
 The algorithms put one task into the workers on each tick.
 
 \begin{figure}[b!]
-    \begin{lstlisting}
+	\begin{minted}{ruby}
 (0...50_000).each do |n|
   r = Random::rand(100) + 1
   puts "Task #{n},#{r}"
 end
-    \end{lstlisting}
+	\end{minted}
     \caption{Ruby script to generate random task data}
     \label{lst:ruby}
 \end{figure}
@@ -258,7 +258,7 @@ despite the random selection of workers
 (compare \ref{lst:jsq} and \ref{lst:rsjsq}).
 
 \begin{figure}[]
-    \begin{lstlisting}
+	\begin{minted}{rust}
 for t in tasks.into_iter() {
     for mut a in ass.iter_mut()
     {
@@ -269,13 +269,13 @@ for t in tasks.into_iter() {
     });
     ass[0].push(t);
 }
-    \end{lstlisting}
+	\end{minted}
     \caption{Implementation of \ac{JSQ}, with time-component}
     \label{lst:jsq}
 \end{figure}
 
 \begin{figure}[b!]
-    \begin{lstlisting}
+	\begin{minted}{rust}
 let mut src = random::default()
     .seed([42, 1337]);
 for task in tasks.into_iter() {
@@ -295,7 +295,7 @@ for task in tasks.into_iter() {
 
     ass[x].push(task);
 }
-    \end{lstlisting}
+	\end{minted}
     \caption{Implementation of \ac{RSJSQ}, with time-component}
     \label{lst:rsjsq}
 \end{figure}
