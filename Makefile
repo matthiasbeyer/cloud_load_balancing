@@ -34,7 +34,7 @@ export MAKE_FLAGS
 #
 # Flags for the latex compilre
 #
-LATEX_FLAGS=-halt-on-error
+LATEX_FLAGS=-halt-on-error -shell-escape
 export LATEX_FLAGS
 
 #
