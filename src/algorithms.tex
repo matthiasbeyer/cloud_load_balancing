@@ -254,7 +254,51 @@ This is not a surprise for \ac{JSQ} (with manual book keeping), as the node with
 the least tasks after assigning a task to node $n$ is always the next node:
 $(n + 1) \% |N|$.
 Surprisingly, \ac{RSJSQ} behaves \emph{almost} like \ac{RR} and \ac{JSQ},
-despite the random selection of workers.
+despite the random selection of workers
+(compare \ref{lst:jsq} and \ref{lst:rsjsq}).
+
+\begin{figure}[]
+    \begin{lstlisting}
+for t in tasks.into_iter() {
+    for mut a in ass.iter_mut()
+    {
+        a.tick();
+    }
+    ass.sort_by(|a, b| {
+        a.len().cmp(&b.len())
+    });
+    ass[0].push(t);
+}
+    \end{lstlisting}
+    \caption{Implementation of \ac{JSQ}, with time-component}
+    \label{lst:jsq}
+\end{figure}
+
+\begin{figure}[]
+    \begin{lstlisting}
+let mut src = random::default()
+    .seed([42, 1337]);
+for task in tasks.into_iter() {
+    for mut a in ass.iter_mut() {
+        a.tick();
+    }
+
+    let i = src.read::<usize>()
+        % nass;
+    let j = src.read::<usize>()
+        % nass;
+
+    let il = ass[i].len();
+    let jl = ass[j].len();
+    let x = if il <= jl
+        { i } else { j };
+
+    ass[x].push(task);
+}
+    \end{lstlisting}
+    \caption{Implementation of \ac{RSJSQ}, with time-component}
+    \label{lst:jsq}
+\end{figure}
 
 If we take the processing of the tasks on the workers into account, though, we
 clearly see the improvement of \ac{JSQ} over \ac{RR}.
