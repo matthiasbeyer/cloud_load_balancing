@@ -181,10 +181,10 @@ The algorithms put one task into the workers on each tick.
 
 \begin{figure}[b!]
     \begin{lstlisting}
-    (0...50_000).each do |n|
-      r = Random::rand(100) + 1
-      puts "Task #{n},#{r}"
-    end
+(0...50_000).each do |n|
+  r = Random::rand(100) + 1
+  puts "Task #{n},#{r}"
+end
     \end{lstlisting}
     \caption{Ruby script to generate random task data}
     \label{lst:ruby}
