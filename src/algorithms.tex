@@ -228,18 +228,18 @@ end
         \begin{tikzpicture}
                 \begin{axis}[
                         ybar,
-                        enlargelimits=0.35,
-                        symbolic x coords={random,RR,JSQ,RSJSQ},
+                        enlargelimits=0.15,
+                        symbolic x coords={Random,RR,JSQ,RSJSQ},
                         xtick=data,
                         ylabel={Tasks distribution, default deviation},
                         nodes near coords,
                         nodes near coords align={vertical},
                         x tick label style={rotate=45,anchor=east},
-                        bar width=15pt,
+                        bar width=20pt,
                         ]
 
                         \addplot+[color=black] coordinates
-                        {(random,78.22) (RR,0) (JSQ,0) (RSJSQ,1.26)};
+                        {(Random,78.22) (RR,0) (JSQ,0) (RSJSQ,1.26)};
 
                 \end{axis}
         \end{tikzpicture}
@@ -344,14 +344,14 @@ Fig. \ref{fig:algo:time:defdev}).
         \begin{tikzpicture}
                 \begin{axis}[
                         ybar,
-                        enlargelimits=0.35,
+                        enlargelimits=0.15,
                         symbolic x coords={random,RR,JSQ,RSJSQ},
                         xtick=data,
                         ylabel={Tasks distribution, default deviation},
                         nodes near coords,
                         nodes near coords align={vertical},
                         x tick label style={rotate=45,anchor=east},
-                        bar width=15pt,
+                        bar width=20pt,
                         ]
 
                         \addplot+[color=black] coordinates
