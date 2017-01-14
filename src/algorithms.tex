@@ -235,8 +235,8 @@ The algorithms put one task into the workers on each tick.
 \end{figure}
 
 In an environment with one load balancer where tasks can be distributed before
-the processing, \ac{JSQ} and \ac{RSJSQ} behave exactly like \ac{RR} as shown
-in Fig. \ref{fig:algo:use} and Fig. \ref{fig:algo:use:defdev}.
+the processing begins, \ac{JSQ} and \ac{RSJSQ} behave exactly like \ac{RR} as
+shown in Fig. \ref{fig:algo:use} and Fig. \ref{fig:algo:use:defdev}.
 This is not a surprise for \ac{JSQ} (with manual book keeping), as the node with
 the least tasks after assigning a task to node $n$ is always the next node:
 $(n + 1) \% |N|$.
