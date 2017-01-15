@@ -290,8 +290,8 @@ for task in tasks.into_iter() {
 
     let il = ass[i].len();
     let jl = ass[j].len();
-    let x = if il <= jl
-        { i } else { j };
+    let x = if il <= jl { i }
+            else { j };
 
     ass[x].push(task);
 }
