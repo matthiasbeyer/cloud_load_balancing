@@ -1,6 +1,7 @@
 The complexity of a \ac{LBA} increases with the complexity of the system it has
 to work with.
-Consider a load balancing algorithm that computes the target worker for a task,
+One has to consider a load balancing algorithm that computes the target worker
+for a task,
 where the size of the tasks are equal, the workers have the same capabilities
 and the number of overall tasks is known.
 Such an algorithm is not of complexity.
@@ -12,11 +13,11 @@ Where $i$ is the number of the worker instance in set $W$ that will be assigned
 with the task number $j$.
 Though, such an environment is unlikely.
 
-In todays systems, the size of a task can often not be predicted.
+In contemporary systems, the size of a task can often not be predicted.
 Algorithms like ``min-min'' and ``max-min''
 \cite{anInDepthAnal} are not applicable to most systems, because
-with these algorithms, the complete set of tasks must be known before scheduling
-them.
+with these algorithms the complete set of tasks must be known prior to
+scheduling them.
 In most environments, this is not possible.
 
 The capabilities of a worker instance may be known, but as tasks come in and are
@@ -51,20 +52,21 @@ Which has several advantages over other approaches:
     \item Simplicity
     \item Few edge cases
     \item Easy failover
-    \item Works distributed
+	\item Works in distributed environments
 \end{itemize} % TODO: cite http://www.codemesh.io/codemesh/tyler-mcmullen ?
 These properties are rather easy to replicate with non-random load balancing
-algorithms, except the last one.
+algorithms, except from the last one.
 
 In a common load balancing environment, having only one load balancer
 distributing tasks between worker instances is naive.
 Commonly, at least one fail-over is deployed, sometimes several.
 Also, in a large system, load balancers might be spread not only over server
-racks but rather continents.
+racks but rather over continents.
 Making load balancers work with each other and synchronize state information
 introduces high complexity.
 
-Anyways, distributing load randomly does not guarantee the best distributing
+Nevertheless, distributing load randomly does not guarantee the best
+distribution
 over a given set of notes, neither with one load balancer nor with many.
 It is even possible that a small set of workers are assigned
 with a huge number of tasks while other workers only handle a very small number
@@ -77,13 +79,14 @@ that the system ends up in an unbalanced state.
 Though this is very unlikely, we can do better.
 
 \subsection{\ac{RR}}
+	\label{chap:algo:rr}
 
 Another cheap load balancing strategy might be \ac{RR}.
 \begin{equation}
     i = number\_of(T) \% |W|
 \end{equation}
 As \ac{RR} is a static algorithm \cite{availabilityLBinCC},
-it yields, as with randomized load balancing, problems in distributed
+it yields, like randomized load balancing, problems in distributed
 environments, where not one but many load balancers are applied to a network of
 servers.
 
@@ -95,8 +98,8 @@ might result in overloaded servers as well.
 A known load balancing algorithm is \ac{JSQ}.
 
 With this algorithm, the load balancing mechanism implements some book-keeping
-mechanism how many jobs are in the queues of the worker instances and selects
-the instance with the shortest queue for a new task.
+mechanism on how many jobs are in the queues of the worker instances and it
+selects the instance with the shortest queue for a new task.
 
 If this algorithm is applied in a non-distributed environment, it behaves
 exactly like \ac{RR} \ref{chap:algo:rr}.
@@ -117,8 +120,8 @@ prevents the ``herd effect'' mentioned earlier.
 
 As synchronization might be to complex and faulty to implement, querying the
 servers for their queue length might be an alternative.
-With a querying-mechanism, synchronization, and therefor blocking, would be
-omitted.
+To omit synchronization, and therefor blocking, one could introduce a
+querying-mechanism.
 However, querying a server instance for its queue length introduces complexity
 to the servers and might also be a non-trivial task.
 
@@ -144,7 +147,7 @@ Due to the fact that querying each server for its queue length
 might be a non-trivial and expensive task,
 selecting two servers randomly (or by a hash function applied to the task, as
 stated in \cite{powerOfTwoRandomChoices}) and applying the \ac{JSQ} algorithm on
-this subset of servers yields, obviousely, better performance as the number of
+this subset of servers yields, obviously, better performance as the number of
 queries for the queue length is minimized.
 
 As stated in \cite{powerOfTwoRandomChoices}, \ac{RSJSQ} might result in
@@ -300,7 +303,7 @@ for task in tasks.into_iter() {
     \label{lst:rsjsq}
 \end{figure}
 
-If we take the processing of the tasks on the workers into account, though, we
+If we take the processing of the tasks on the workers into account, we
 clearly see the improvement of \ac{JSQ} over \ac{RR}.
 Each tick one of the tasks inside a worker gets computed, which means that
 the time factor gets decremented by $1$.
@@ -365,8 +368,8 @@ Fig. \ref{fig:algo:time:defdev}).
 \end{figure}
 
 As each tick one task gets pushed into the set of workers, we get a constant
-rate of new tasks. This might not be a real-world scenario, though it is good
-enough to illustrate the behaviour of the algorithms.
+rate of new tasks. This might not be a real-world scenario, though it serves
+well enough to illustrate the behaviour of the algorithms.
 
 \subsection{Hash based load balancing}
 
@@ -381,23 +384,23 @@ If a new server is added to the cluster, the modulo operation yields other
 servers for the same requests as before, yielding cache effects useless
 \cite{medVimeoEngin}.
 Another implication of hash based load balancing is that consistent hashing is
-less than ideal for load balancing, as requests are not distributed evenly over
+less than ideal for load balancing as requests are not distributed evenly over
 content.
-Consider a cluster for videos, where each server has a subset of the complete
-data.
+One could consider a storage-cluster for videos, where each server has a subset
+of the complete data.
 Naturally, cat videos are more likely to be requested by the user than other
 videos, resulting in higher load on the servers holding this particular data.
 
-In \cite{medVimeoEngin} is stated, that as \ac{RSJSQ} was not suiteable for
-their problem.
-Though, \ac{CHBL} as proposed by \cite{ConsistentHashingWithBoundedLoads} was.
+In \cite{medVimeoEngin} it is stated, that as \ac{RSJSQ} was not suiteable for
+their present problem.
+Although, \ac{CHBL} as proposed by \cite{ConsistentHashingWithBoundedLoads} was.
 
 \ac{CHBL} provides some guarantees which are fortunate for dynamic hash based
 load balancing in distributed environments.
 That is, mostly, an upper bound for the load of each server
 \cite{ConsistentHashingWithBoundedLoads}
 and some more cache-friendly properties \cite{medVimeoEngin}.
-with \ac{CHBL}, distribution of requests is the same as with consistent hashing.
+With \ac{CHBL}, distribution of requests is the same as with consistent hashing.
 
 The \ac{CHBL} algorithm was implemented and submitted to the HAProxy HTTP load
 balancer open source project and on November 25, HAProxy 1.7.0 was published
