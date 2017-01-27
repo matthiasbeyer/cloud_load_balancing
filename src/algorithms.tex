@@ -30,6 +30,9 @@ Because of this, some synchronization method between the book-keeping of each
 load balancer must be introduced to ensure the integrity of the load data on
 each load balancer node.
 
+Measuring load is often not easy to accomplish or even impossible, but load
+information is cirtical in the load balancing environment\cite{detAnal}.
+
 If worker instance $W_1$ has the least load at time $t_1$, the load balancer
 $L_1$ might assign a number of tasks to it in $t_2$.
 After that, $L_1$ must notify $L_2$ about the new load on $W_1$, which it does
