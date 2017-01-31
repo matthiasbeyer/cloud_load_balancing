@@ -116,7 +116,7 @@ where a subset of machines is either underutilized or overloaded with tasks.
 This is caused by the old information of how the nodes are
 utilized as described in.
 Mechanisms exists to use this old information to estimate the current situation
-and improve the decisions of the load balancing (\cite{inpSLoadInfo}).
+and improve the decisions of the load balancing \cite{inpSLoadInfo}.
 The LI framework as introduced in \cite{inpSLoadInfo} improves load distribution
 if the information about the utilization of the nodes is old and therefor
 prevents the ``herd effect'' mentioned earlier.
@@ -163,7 +163,7 @@ environment.
 For the following comparison of the algorthms \ac{RR}, \ac{JSQ} and \ac{RSJSQ},
 they were implemented in the Rust programming languages.
 Sample data in form of a CSV file was generated with the code from
-Fig. \ref{lst:ruby}
+Fig. \ref{lst:ruby}.
 
 \begin{wrapfigure}{r}{0.18\textwidth}
 	\begin{minted}{bash}
@@ -261,7 +261,7 @@ the least tasks after assigning a task to node $n$ is always the next node:
 $(n + 1) \mod |N|$.
 Surprisingly, \ac{RSJSQ} behaves \emph{almost} like \ac{RR} and \ac{JSQ},
 despite the random selection of workers
-(compare \ref{lst:jsq} and \ref{lst:rsjsq}).
+(compare Fig. \ref{lst:jsq} and Fig. \ref{lst:rsjsq}).
 
 \begin{figure}[]
 	\begin{minted}{rust}
@@ -313,7 +313,7 @@ the time factor gets decremented by $1$.
 If a task hits time factor $0$, it gets removed from the tasks queue in the
 worker and the next task will be computed on the next tick.
 After $50.000$ tasks are pushed into the workers, the current state is printed
-out by the implementation (Fig. \ref{fig:algo:time} and
+out by the implementation (visualized in Fig. \ref{fig:algo:time} and
 Fig. \ref{fig:algo:time:defdev}).
 
 \begin{figure}
