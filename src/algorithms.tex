@@ -7,7 +7,7 @@ and the number of overall tasks is known.
 Such an algorithm is not of complexity.
 In fact, it can be implemented by a simple mathematical equation:
 \begin{equation}
-    i = j \% |W|
+    i = j \mod |W|
 \end{equation}
 Where $i$ is the number of the worker instance in set $W$ that will be assigned
 with the task number $j$.
@@ -30,6 +30,9 @@ Because of this, some synchronization method between the book-keeping of each
 load balancer must be introduced to ensure the integrity of the load data on
 each load balancer node.
 
+Measuring load is often not easy to accomplish or even impossible, but load
+information is cirtical in the load balancing environment\cite{detAnal}.
+
 If worker instance $W_1$ has the least load at time $t_1$, the load balancer
 $L_1$ might assign a number of tasks to it in $t_2$.
 After that, $L_1$ must notify $L_2$ about the new load on $W_1$, which it does
@@ -45,7 +48,7 @@ This causes $W_1$ to become overloaded in $t_3$.
 
 A cheap load balancing strategy is randomizing the target.
 \begin{equation}
-    i = rand() \% |W|
+	i = rand() \mod |W|
 \end{equation}
 Which has several advantages over other approaches:
 \begin{itemize}
@@ -83,7 +86,7 @@ Though this is very unlikely, we can do better.
 
 Another cheap load balancing strategy might be \ac{RR}.
 \begin{equation}
-    i = number\_of(T) \% |W|
+	i = number\_of(T) \mod |W|
 \end{equation}
 As \ac{RR} is a static algorithm \cite{availabilityLBinCC},
 it yields, like randomized load balancing, problems in distributed
@@ -134,8 +137,8 @@ A surprisingly good optimization is the combination of the random load balancing
 implementation with \ac{JSQ}.
 \begin{equation}
     \begin{aligned}
-        x &= rand() \% |I| \\
-        y &= rand() \% |I| \\
+		x &= rand() \mod |I| \\
+        y &= rand() \mod |I| \\
         i &= \begin{cases}
             x & \text{if } load(W_x) =< load(W_y)\\
             y & \text{if } load(W_x) > load(W_y)\\
@@ -255,7 +258,7 @@ the processing begins, \ac{JSQ} and \ac{RSJSQ} behave exactly like \ac{RR} as
 shown in Fig. \ref{fig:algo:use} and Fig. \ref{fig:algo:use:defdev}.
 This is not a surprise for \ac{JSQ} (with manual book keeping), as the node with
 the least tasks after assigning a task to node $n$ is always the next node:
-$(n + 1) \% |N|$.
+$(n + 1) \mod |N|$.
 Surprisingly, \ac{RSJSQ} behaves \emph{almost} like \ac{RR} and \ac{JSQ},
 despite the random selection of workers
 (compare \ref{lst:jsq} and \ref{lst:rsjsq}).
